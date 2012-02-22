@@ -61,6 +61,7 @@ function done(){
 	reset();
 	keepGoing = false;
 	playSound();
+	updateHeader("");
 	setTimeout(function(){keepGoing = true}, 500);
 }
 
@@ -106,3 +107,18 @@ function display(){
 	}
 	
 } // end of function display
+
+
+function updateHeader(newText){
+	if(newText == ""){
+		$("h1").fadeOut(700);
+		$("h1").html("Tireless");
+		$("h1").fadeIn(700);
+	}
+	else{
+		$("h1").fadeOut(700);
+		$("h1").html("Tireless: " + newText);	
+		$("h1").fadeIn(700);
+	}
+	
+} // end of function updateHeader

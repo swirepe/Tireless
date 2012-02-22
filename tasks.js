@@ -10,11 +10,9 @@ function initTasks(){
 			continue;
 		}
 
-		console.log(key);
-		console.log(localStorage[key]);
 		var task = JSON.parse(localStorage[key]);
 		var name = task["name"];
-		var id = task["id"];
+		var id = parseInt(task["id"]);
 
         var element = $("<div>");
         element.attr("class", "task");
@@ -36,7 +34,7 @@ function choice(L){
 	var chosen;	
 	var i;
 	for(i = 0; i < L.length; i += 1){
-		if(Math.random() < 1.0 / i){
+		if(Math.random() < 1.0 / (i+1)) {
 			chosen = L[i];
 		}	
 	}
@@ -61,6 +59,76 @@ function newTask(){
 	return n;
 } // end of function newTask
 
-function populateForm(task){
-	
+
+function populateForm(id){
+	saveFormContents();
+	clearForm();
+
+	// todo: clear form
+
+	id = parseInt(id);
+	var task = JSON.parse(localStorage[id]);
+
+
+
+	$("form").attr("id", task["id"]);
+	$("legend").html(task["name"]);
+
+	var entry;
+	for(entry in task["entries"]){
+		var wrapper = $("<li>");
+		var element = $("<input>");
+		element.attr("type", "text");
+		element.val(task["entries"][entry]);
+
+		element.attr("class", "entry");
+		wrapper.append(element);
+		wrapper.fadeIn(600);
+		$("#entries").append(wrapper);
+	}
+} // end of function populateForm
+
+
+function getFormEntries(){
+	var entries = new Array();
+
+	var a = $("input").map(function(){return $(this).val()});
+	var i = 0;
+	for(i = 0; i < a.length; i += 1){
+		entries[i] = a[i];
+	}
+
+	return entries;
 }
+
+
+function saveFormContents(){
+	var i = parseInt($("form").attr("id"));
+	if(i === -1){
+		return;
+	}
+
+
+	var task = {
+		id: i,
+		name: $("legend").text(),
+		entries: getFormEntries(),
+	}
+
+	localStorage[i] = JSON.stringify(task);
+} // end of function saveFormContents
+
+
+function chooseEntryFromForm(){
+	var id = parseInt($("form").attr("id"));
+	var task = JSON.parse(localStorage[id]);
+	var chosen = choice(task["entries"])
+	return chosen;
+} // end of function chooseEntryFromForm
+
+
+
+function clearForm(){
+	$("form").attr("id", -1);
+	$("#entries").empty();
+} // end of function clearForm

@@ -14,13 +14,28 @@
     $(document).ready(function(){
         initTimer();
         display();
-        $(".begin-timer-button").onclick = runTimer;
-
-
         initTasks();
+
+        $(".begin-timer-button").live("click", function(){
+            runTimer();
+            var chosen;
+            chosen = chooseEntryFromForm();
+            console.log(chosen);
+            updateHeader(chosen);
+        });
+
+
+        $("input").live("keypress", saveFormContents);
+
+
+        $(".task").live("click", function(){
+            populateForm( parseInt($(this).attr("id")) );
+        });
+
 
         $(".tasks").sortable();
         $(".tasks").disableSelection();
+
 
         $(".new-task-button").live("click", function(){
             var n = newTask();
@@ -207,7 +222,6 @@
         .begin-timer-button :hover {
             border-top-color: #6f0da8;
             background: #6f0da8;
-            font-weight: 800;
             color: gray;
         }
 
@@ -217,6 +231,51 @@
             color: #e6e6e6;
             font-weight: 800;
         }
+
+        form {
+            background: #6600CC;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+            color: white;
+        }
+
+        legend {
+            font-size: 15px;
+            font-weight: 100;
+            padding-left:5px;
+            padding-right:5px;
+            font-variant:small-caps;
+        }
+
+        .another-entry-button {
+            float:right;
+            text-align:center;
+            font-size: 10px;
+            background-color: #24246B;
+            font-variant:small-caps;
+            font-weight: 100;
+            cursor:pointer;
+            letter-spacing: 2px;
+            color: white;
+            padding-left:5px;
+            padding-right:5px;
+        }
+
+        .entries {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left:0;
+        }
+
+        input {
+            width:90%;
+            margin-left: 4px;
+            font-variant:small-caps;
+        }
+
 
     </style>
 
@@ -247,12 +306,29 @@
 
             </ul>
 
-
         </div>
         <div class="decision-panel">
             <div class="begin-timer-button" onclick="runTimer()">
-                <p>Start Timer</p>
+                <p>Choose For Me</p>
             </div>
+
+            <form id ="-1">
+                <fieldset>
+                    <legend>A Task</legend>
+
+                        <span class="another-entry-button">Add Another</span>
+                        <br />
+                        <span class="another-entry-button">Delete Task</span>
+
+                    
+                    <ol id="entries">
+                    </ol>
+
+                </fieldset>
+
+            </form>
+
+
 
         </div>
         <div class="footer">
