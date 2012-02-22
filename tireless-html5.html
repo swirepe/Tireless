@@ -49,6 +49,15 @@
 
         }
 
+        .progress-bar {
+            width:0px;
+            height: 10px;
+            float: left;
+            margin-top: 10px;
+            background-color: #66FF33;
+        }
+
+
         .task-panel {
             margin:0px;
             width:30%;
@@ -93,16 +102,13 @@
            float: right;
            text-align: right;
            margin-right: 10px;
+           padding-bottom: 0px;
+           margin-bottom: -2px;
            font-size:20px;
-           z-index:10;
+           
         }
 
 
-        .progress-bar {
-            width:0px;
-            float: left;
-            background-color: #66FF33;
-        }
 
 
         .begin-timer-button {
@@ -165,7 +171,7 @@
 
         </div>
         <div class="decision-panel">
-            <div class="begin-timer-button">
+            <div class="begin-timer-button" onclick="runTimer()">
                 <p>Start Timer</p>
             </div>
 

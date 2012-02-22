@@ -1,8 +1,10 @@
 var timer;
-var twentyFiveMinutes = 1500000;
+var twentyFiveMinutes = 1500000 / 25 / 6;
+var keepGoing = true;
 
 function initTimer(){
-	localStorage["timerRunning"] = false;	
+	delete(localStorage["timerRunning"]);
+	delete(localStorage["startingTime"]);
 }
 
 function pad(val) {
@@ -18,7 +20,9 @@ function runTimer(){
 	display();
 
 	// recursively call this everuy 100 ms
-	timer = setTimeout(runTimer, 100);
+	if(keepGoing){
+		timer = setTimeout(runTimer, 100);
+	}
 } // end of function run
 
 
@@ -44,7 +48,8 @@ function playSound(){
 
 function reset(){
 	delete(localStorage["startingTime"]);
-	localStorage["timerRunning"] = false;
+	delete(localStorage["timerRunning"]);
+	//localStorage["timerRunning"] = false;
 	display();
 	clearTimeout(timer);
 
@@ -53,19 +58,22 @@ function reset(){
 
 
 function done(){
-	reset()
+	reset();
+	keepGoing = false;
 	playSound();
+	setTimeout(function(){keepGoing = true}, 500);
 }
 
 
 
 function display(){
 	if(localStorage["timerRunning"]){
+		
 		var elapsedMilliseconds = +new Date - parseInt(localStorage["startingTime"])
 
 		// handle the progress bar
-		var barLength = Math.floor((1.0 * elapsedMilliseconds / twentyFiveMinutes) * $(".body-container").css("width"));
-		$(".progress-bar").css("width", barLength);
+		var barLength = Math.floor((1.0 * elapsedMilliseconds / twentyFiveMinutes) * $(".body-container").width());
+		$(".progress-bar").width(barLength);
 
 
 		// handle the countdown timer
@@ -77,20 +85,22 @@ function display(){
 		var secsLeft = Math.floor(remainingTime%60000/1000);
 		var minsLeft = Math.floor(remainingTime%3600000/60000);
 
-		$("#timerElapsed").innerHTML = 
-			pad(minsElapsed) + ":" + pad(secsElapsed) + "/" + pad(minsLeft) + ":" + pad(secsLeft);
+		$("#timerElapsed").html( 
+			pad(minsElapsed) + ":" + pad(secsElapsed) + "/" + pad(minsLeft) + ":" + pad(secsLeft)
+		);
 
 		// finially, if we are out of time, stop!
 		if(remainingTime <= 0){
-			done()
+			done();
 		}
 
 
 		// todo: change buttons
 
 	}else{
-		$("#timerElapsed").innerHTML = "";
-		$(".progress-bar").css("width", 0);
+		//localStorage["timerRunning"] = false;
+		$("#timerElapsed").html("");
+		$(".progress-bar").width(0);
 
 		// todo: change buttons
 	}
