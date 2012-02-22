@@ -33,6 +33,9 @@ function initTasks(){
 	if(foundSomething){
 		populateForm(foundSomething);
 		$("form").show(300);
+		enableTimerButton();
+	} else{
+		disableTimerButton();
 	}
 
 
@@ -79,7 +82,7 @@ function newTask(){
 	localStorage[n] = JSON.stringify(task);
 
 	populateForm(n);
-
+	enableTimerButton();
 	return n;
 } // end of function newTask
 
@@ -99,8 +102,6 @@ function populateForm(id){
 
 	var entry;
 	for(entry in task["entries"]){
-		console.log(entry);
-		console.log(task["entries"][entry]);
 		addEntry(task["entries"][entry]);
 	}
 
@@ -111,7 +112,7 @@ function populateForm(id){
 function getFormEntries(){
 	var entries = new Array();
 
-	var a = $("input").map(function(){return $(this).val()});
+	var a = $(".entry").map(function(){return $(this).val()});
 	var i = 0;
 	for(i = 0; i < a.length; i += 1){
 		entries[i] = a[i];
@@ -187,4 +188,11 @@ function deleteTask(){
 
 	initTasks();
 
+}
+
+function updateTaskPanel(){
+	var id = parseInt($("form").attr("id"));
+	var searchString = "#" + id;
+
+	$(searchString).text($("legend").text());
 }

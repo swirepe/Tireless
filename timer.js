@@ -1,6 +1,8 @@
 var timer;
 var twentyFiveMinutes = 1500000;
 var keepGoing = true;
+var timerButtonEnabled = false;
+
 
 function initTimer(){
 	delete(sessionStorage["timerRunning"]);
@@ -111,14 +113,26 @@ function display(){
 
 function updateHeader(newText){
 	if(newText == ""){
-		$("h1").fadeOut(700);
-		$("h1").html("Tireless");
+		$("h1").fadeOut(700, function(){ $(this).html("Tireless")});
 		$("h1").fadeIn(700);
 	}
 	else{
-		$("h1").fadeOut(700);
-		$("h1").html("Tireless: " + newText);	
+		$("h1").fadeOut(700, function(){ $(this).html("Tireless: " + newText)});
 		$("h1").fadeIn(700);
 	}
 	
 } // end of function updateHeader
+
+
+
+function disableTimerButton(){
+	timerButtonEnabled = false;
+	$(".begin-timer-button").html("Nothing To Do");
+	$(".begin-timer-button").removeClass("hover");
+}
+
+function enableTimerButton(){
+	timerButtonEnabled = true;
+	$(".begin-timer-button").html("Choose For Me");
+	$(".begin-timer-button").addClass("hover");
+}

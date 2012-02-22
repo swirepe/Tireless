@@ -5,6 +5,7 @@
     <title>Tireless</title>
     <script type="text/javascript" src="jquery-1.7.1.min.js" ></script>
     <script type="text/javascript" src="jquery-ui-1.8.17.custom.min.js" ></script>
+    <script type="text/javascript" src="jquery.jeditable.js"></script>
     <script type="text/javascript" src="Audiolet.js" ></script>
     <script type="text/javascript" src="timer.js" ></script>
     <script type="text/javascript" src="tasks.js" ></script>
@@ -17,11 +18,14 @@
         initTasks();
 
         $(".begin-timer-button").live("click", function(){
-            runTimer();
-            var chosen;
-            chosen = chooseEntryFromForm();
-            console.log(chosen);
-            updateHeader(chosen);
+            if(timerButtonEnabled){
+                runTimer();
+                var chosen;
+                chosen = chooseEntryFromForm();
+                console.log(chosen);
+                updateHeader(chosen);                
+            }
+
         });
 
 
@@ -29,16 +33,23 @@
 
         $(".delete-task-button").live("click", deleteTask);
 
-        $("input").live("keypress", saveFormContents);
-
-
-        $("legend").live("click", renameTask);
-
-
         $(".delete-entry-button").live("click", function(){
             $(this).parent().remove();
             saveFormContents();
         })
+
+
+        $("input").live("keypress", saveFormContents);
+
+
+        $("legend").editable(function(value, settings){
+            setTimeout(saveFormContents, 100);
+            setTimeout(updateTaskPanel, 100);
+            return(value);
+        });
+
+
+        //$("legend").live("change", saveFormContents );
 
 
         $(".task").live("click", function(){
@@ -173,6 +184,8 @@
             font-variant:small-caps;
             font-weight: 100;
             cursor:pointer;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
 
@@ -230,15 +243,17 @@
             font-variant:small-caps;
             font-weight: 100;
             cursor:pointer;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
-        .begin-timer-button :hover {
+        .begin-timer-button:hover {
             border-top-color: #6f0da8;
             background: #6f0da8;
             color: gray;
         }
 
-        .begin-timer-button :active {
+        .begin-timer-button:active {
             border-top-color: #3f1b5c;
             background: #3f1b5c;
             color: #e6e6e6;
@@ -261,6 +276,7 @@
             padding-left:5px;
             padding-right:5px;
             font-variant:small-caps;
+            cursor:pointer;
         }
 
         .another-entry-button {
