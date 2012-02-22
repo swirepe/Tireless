@@ -6,6 +6,7 @@
     <script type="text/javascript" src="jquery-1.7.1.min.js" ></script>
     <script type="text/javascript" src="Audiolet.js" ></script>
     <script type="text/javascript" src="timer.js" ></script>
+    <script type="text/javascript" src="tasks.js" ></script>
 
     <!-- turn on the start button -->
     <script type="text/javascript">
@@ -13,6 +14,22 @@
         initTimer();
         display();
         $(".begin-timer-button").onclick = runTimer;
+
+
+        initTasks();
+
+
+        $(".new-task-button").live("click", function(){
+            var n = newTask();
+            var element = $("<div>");
+            element.attr("class", "task");
+            element.attr("id", n);
+            element.removeAttr("style");
+            element.text("Task " + n);
+            element.fadeIn(600);
+            $(".tasks").append(element);
+
+        }); 
         
 
     });
@@ -108,7 +125,55 @@
            
         }
 
+        .new-task-button {
+            text-align:center;
+            background: #0000FF;
+            /*padding: 3.5px 7px;*/
+            color: white;
+            font-size: 15px;
+            font-family: Helvetica, Arial, Sans-Serif;
 
+            letter-spacing: 2px;
+            font-variant:small-caps;
+            font-weight: 100;
+            cursor:pointer;
+        }
+
+
+        .new-task-button :hover {
+            background: #3366FF;
+            font-weight: 400;
+            color: white;
+        }
+
+        .new-task-button :active {
+            background: #000066;
+            color: #e6e6e6;
+            font-weight: 800;
+        }
+
+
+        .task {
+            text-align:center;
+            font-size: 15px;
+            background-color: #24246B;
+            font-variant:small-caps;
+            font-weight: 100;
+            cursor:pointer;
+            letter-spacing: 2px;
+            color: white;
+        }
+
+        .task:hover {
+            background-color: #6600CC;
+            font-weight: 400;
+            cursor:pointer;
+        }
+
+        .task:active{
+            font-weight: 800;
+            background-color: #660066;
+        }
 
 
         .begin-timer-button {
@@ -149,7 +214,7 @@
             <h1>Tireless</h1>
 
             <p id="timerElapsed">
-            lol
+            This is where the timer goes.
             </p>
 
         </div>
@@ -161,7 +226,7 @@
         </div>
         <div class="task-panel">
             <div class="new-task-button">
-
+                <p>New Task</p>
             </div>
 
             <div class="tasks">

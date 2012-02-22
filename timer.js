@@ -3,8 +3,8 @@ var twentyFiveMinutes = 1500000 / 25 / 6;
 var keepGoing = true;
 
 function initTimer(){
-	delete(localStorage["timerRunning"]);
-	delete(localStorage["startingTime"]);
+	delete(sessionStorage["timerRunning"]);
+	delete(sessionStorage["startingTime"]);
 }
 
 function pad(val) {
@@ -13,9 +13,9 @@ function pad(val) {
 
 
 function runTimer(){
-	localStorage["timerRunning"] = true;
-	if(! localStorage["startingTime"] ){
-		localStorage["startingTime"] = +new Date;
+	sessionStorage["timerRunning"] = true;
+	if(! sessionStorage["startingTime"] ){
+		sessionStorage["startingTime"] = +new Date;
 	}
 	display();
 
@@ -47,9 +47,9 @@ function playSound(){
 
 
 function reset(){
-	delete(localStorage["startingTime"]);
-	delete(localStorage["timerRunning"]);
-	//localStorage["timerRunning"] = false;
+	delete(sessionStorage["startingTime"]);
+	delete(sessionStorage["timerRunning"]);
+	//sessionStorage["timerRunning"] = false;
 	display();
 	clearTimeout(timer);
 
@@ -67,9 +67,9 @@ function done(){
 
 
 function display(){
-	if(localStorage["timerRunning"]){
+	if(sessionStorage["timerRunning"]){
 		
-		var elapsedMilliseconds = +new Date - parseInt(localStorage["startingTime"])
+		var elapsedMilliseconds = +new Date - parseInt(sessionStorage["startingTime"])
 
 		// handle the progress bar
 		var barLength = Math.floor((1.0 * elapsedMilliseconds / twentyFiveMinutes) * $(".body-container").width());
@@ -98,7 +98,7 @@ function display(){
 		// todo: change buttons
 
 	}else{
-		//localStorage["timerRunning"] = false;
+		//sessionStorage["timerRunning"] = false;
 		$("#timerElapsed").html("");
 		$(".progress-bar").width(0);
 
