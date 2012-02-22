@@ -1,10 +1,8 @@
 var timer;
 var twentyFiveMinutes = 1500000;
 
-function init_timer(){
+function initTimer(){
 	localStorage["timerRunning"] = false;	
-
-
 }
 
 function pad(val) {
@@ -12,7 +10,7 @@ function pad(val) {
 }
 
 
-function run(){
+function runTimer(){
 	localStorage["timerRunning"] = true;
 	if(! localStorage["startingTime"] ){
 		localStorage["startingTime"] = +new Date;
@@ -20,23 +18,27 @@ function run(){
 	display();
 
 	// recursively call this everuy 100 ms
-	timer = setTimeout(run, 100);
+	timer = setTimeout(runTimer, 100);
 } // end of function run
 
 
 function playSound(){
 	var audiolet = new Audiolet();
 
-
 	// f, ab, db
-	var frequencyPattern = new PSequence([698.46, 830.61, 1108.73 ], 1)
-	audiolet.scheduler.play([frequencyPattern], 1,
+	var frequencyPattern = new PSequence([698.46*2, 830.61*2, 1108.73*2 ], 1)
+	audiolet.scheduler.play([frequencyPattern], 1./4,
 		function(frequency){
 			var triangle = new Triangle(audiolet, frequency);
 			triangle.connect(audiolet.output);
+
+			setTimeout(function(){
+				triangle.disconnect(audiolet.output)
+			}, 300);
 		}
 	);
-	
+
+
 } // end of function playSound
 
 
