@@ -3,16 +3,23 @@ function initTasks(){
 		localStorage["defaultTaskID"] = 1;
 	}
 	
+	$("form").hide();
+	$(".tasks").empty();
+
 	// populate the task list
+	var foundSomething = false;
 	var key;
 	for(key in localStorage){
 		if(key === "defaultTaskID"){
 			continue;
 		}
+		
 
 		var task = JSON.parse(localStorage[key]);
 		var name = task["name"];
 		var id = parseInt(task["id"]);
+
+		foundSomething = id;
 
         var element = $("<div>");
         element.attr("class", "task");
@@ -23,11 +30,16 @@ function initTasks(){
 
 	}
 
+	if(foundSomething){
+		populateForm(foundSomething);
+		$("form").show(300);
+	}
+
 
 } // end of function initTasks
 
 
-var defaultTasks = ["Pick up milk", "Call mom", "Rotate tires", "Cancel the apocalypse", "Invent", "Sing the blues", "Be kind to animals"];
+var defaultTasks = ["Read", "Pick up milk", "Call mom", "Rotate tires", "Cancel the apocalypse", "Invent", "Sing the blues", "Be kind to animals"];
 
 function choice(L){
 	// returns a random element from L
@@ -42,6 +54,16 @@ function choice(L){
 	return chosen;
 } // end of function choice
 
+function chooseTwo(L){
+	var first = choice(L)
+	var second = choice(L)
+	while(second === first){
+		second = choice(L);
+	}
+
+	return [first, second];
+}
+
 
 
 function newTask(){
@@ -51,10 +73,12 @@ function newTask(){
 	var task = {
 		id: n,
 		name: "Task " + n,
-		entries: [choice(defaultTasks), choice(defaultTasks)]
+		entries: chooseTwo(defaultTasks)
 	};
 
 	localStorage[n] = JSON.stringify(task);
+
+	populateForm(n);
 
 	return n;
 } // end of function newTask
@@ -64,7 +88,6 @@ function populateForm(id){
 	saveFormContents();
 	clearForm();
 
-	// todo: clear form
 
 	id = parseInt(id);
 	var task = JSON.parse(localStorage[id]);
@@ -76,16 +99,12 @@ function populateForm(id){
 
 	var entry;
 	for(entry in task["entries"]){
-		var wrapper = $("<li>");
-		var element = $("<input>");
-		element.attr("type", "text");
-		element.val(task["entries"][entry]);
-
-		element.attr("class", "entry");
-		wrapper.append(element);
-		wrapper.fadeIn(600);
-		$("#entries").append(wrapper);
+		console.log(entry);
+		console.log(task["entries"][entry]);
+		addEntry(task["entries"][entry]);
 	}
+
+	$("form").show(300);
 } // end of function populateForm
 
 
@@ -132,3 +151,40 @@ function clearForm(){
 	$("form").attr("id", -1);
 	$("#entries").empty();
 } // end of function clearForm
+
+
+function addEntry(text){
+	if(text === ""){
+		text = choice(defaultTasks);
+	}
+
+	var wrapper = $("<li>");
+	var element = $("<input>");
+	element.attr("type", "text");
+	element.val(text);
+
+	element.attr("class", "entry");
+	wrapper.append(element);
+
+	var deleteButton = $("<span>")
+	deleteButton.attr("class", "delete-entry-button");
+	deleteButton.text("x");
+
+	wrapper.append(deleteButton);
+
+	wrapper.fadeIn(600);
+	$("#entries").append(wrapper);
+	saveFormContents();
+}
+
+
+function deleteTask(){
+	var id = parseInt($("form").attr("id"));
+
+	delete(localStorage[id]);
+	
+	$("form").attr("id", -1);
+
+	initTasks();
+
+}

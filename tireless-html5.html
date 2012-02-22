@@ -25,7 +25,20 @@
         });
 
 
+        $(".another-entry-button").live("click", function(){addEntry("")});
+
+        $(".delete-task-button").live("click", deleteTask);
+
         $("input").live("keypress", saveFormContents);
+
+
+        $("legend").live("click", renameTask);
+
+
+        $(".delete-entry-button").live("click", function(){
+            $(this).parent().remove();
+            saveFormContents();
+        })
 
 
         $(".task").live("click", function(){
@@ -264,6 +277,40 @@
             padding-right:5px;
         }
 
+        .another-entry-button:hover {
+            background-color: #BF94E9;
+        }
+
+        .delete-entry-button{
+            text-transform:lowercase;
+            margin-left: 5px;
+            font-family:Lucida Console;
+            cursor:pointer;
+        }
+
+        .delete-entry-button:hover{
+            background-color: #24246B;
+        }
+
+        .delete-task-button {
+            float:right;
+            text-align:center;
+            font-size: 10px;
+            background-color: #24246B;
+            font-variant:small-caps;
+            font-weight: 100;
+            cursor:pointer;
+            letter-spacing: 2px;
+            color: white;
+            padding-left:5px;
+            padding-right:5px;
+        }
+
+
+        .delete-task-button:hover {
+            background-color: #BF94E9;
+        }
+
         .entries {
             list-style-type: none;
             margin-left: 0;
@@ -318,7 +365,7 @@
 
                         <span class="another-entry-button">Add Another</span>
                         <br />
-                        <span class="another-entry-button">Delete Task</span>
+                        <span class="delete-task-button">Delete Task</span>
 
                     
                     <ol id="entries">

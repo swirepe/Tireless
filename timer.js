@@ -1,5 +1,5 @@
 var timer;
-var twentyFiveMinutes = 1500000 / 25 / 6;
+var twentyFiveMinutes = 1500000;
 var keepGoing = true;
 
 function initTimer(){
