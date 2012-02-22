@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>Tireless</title>
     <script type="text/javascript" src="jquery-1.7.1.min.js" ></script>
+    <script type="text/javascript" src="jquery-ui-1.8.17.custom.min.js" ></script>
     <script type="text/javascript" src="Audiolet.js" ></script>
     <script type="text/javascript" src="timer.js" ></script>
     <script type="text/javascript" src="tasks.js" ></script>
@@ -18,16 +19,23 @@
 
         initTasks();
 
+        $(".tasks").sortable();
+        $(".tasks").disableSelection();
 
         $(".new-task-button").live("click", function(){
             var n = newTask();
+            var wrapper = $("<li>");
+
             var element = $("<div>");
             element.attr("class", "task");
             element.attr("id", n);
             element.removeAttr("style");
             element.text("Task " + n);
             element.fadeIn(600);
-            $(".tasks").append(element);
+
+            wrapper.append(element);
+
+            $(".tasks").append(wrapper);
 
         }); 
         
@@ -152,6 +160,12 @@
             font-weight: 800;
         }
 
+        .tasks {
+            list-style-type: none;
+            margin-left: 0;
+            padding-left:0;
+        }
+
 
         .task {
             text-align:center;
@@ -229,9 +243,9 @@
                 <p>New Task</p>
             </div>
 
-            <div class="tasks">
+            <ul class="tasks">
 
-            </div>
+            </ul>
 
 
         </div>
