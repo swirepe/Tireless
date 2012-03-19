@@ -28,7 +28,10 @@ Tireless is a single self-contained html file that uses local storage to remembe
 ## What It Uses
 
 [JQuery](http://jquery.com/)
+
 [JQueryUI](http://jqueryui.com/)
+
 [Audiolet](https://github.com/oampo/Audiolet)
+
 [Favicon.cc](http://www.favicon.cc/)
 
