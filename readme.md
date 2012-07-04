@@ -2,6 +2,8 @@
 A Simple tool for decreasing decision fatigue
 Peter Swire - swirepe.com
 
+*Now in use by Brandeis University's English Department*
+
 
 ## What Is It
 
